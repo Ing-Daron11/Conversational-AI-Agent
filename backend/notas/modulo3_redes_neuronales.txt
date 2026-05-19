@@ -1,0 +1,54 @@
+Módulo 3 — Redes Neuronales y Backpropagation
+Materia: Inteligencia Artificial 2
+Semana: 3
+
+## ¿Qué es una red neuronal?
+
+Una red neuronal artificial es un modelo computacional inspirado en el cerebro humano. 
+Está compuesta por capas de nodos (neuronas) conectados entre sí mediante pesos (weights).
+Cada neurona aplica una función de activación (ReLU, Sigmoid, Tanh) a la suma ponderada de sus entradas.
+
+Tipos de capas:
+- Capa de entrada (input layer): recibe los datos crudos
+- Capas ocultas (hidden layers): transforman la representación
+- Capa de salida (output layer): produce la predicción final
+
+## Backpropagation
+
+Backpropagation es el algoritmo para entrenar redes neuronales. 
+Calcula el gradiente del error respecto a cada peso mediante la regla de la cadena.
+
+Pasos del entrenamiento:
+1. Forward pass: los datos fluyen de entrada a salida, se calcula la pérdida (loss)
+2. Backward pass: los gradientes fluyen de atrás hacia adelante (backpropagation)
+3. Gradient descent: los pesos se actualizan: w = w - lr * gradiente
+
+La tasa de aprendizaje (learning_rate) controla el tamaño del paso en cada actualización.
+Si es muy alta, el modelo diverge. Si es muy baja, el entrenamiento es lento.
+
+## Funciones de activación
+
+ReLU (Rectified Linear Unit): f(x) = max(0, x)
+- Ventaja: no tiene problema de gradientes que desaparecen en capas profundas
+- Desventaja: puede tener "neuronas muertas" si la entrada es siempre negativa
+
+Sigmoid: f(x) = 1 / (1 + e^(-x))
+- Salida en rango [0, 1], útil para clasificación binaria
+- Problema: saturación → gradientes muy pequeños en los extremos
+
+## Transformers
+
+Los Transformers son arquitecturas de redes neuronales basadas en el mecanismo de atención (attention).
+Introducidos en el paper "Attention is All You Need" (Vaswani et al., 2017).
+
+Componentes principales:
+- Multi-head Self-Attention: permite que cada token "atienda" a todos los demás tokens
+- Feed-Forward Network: capa densa aplicada a cada posición independientemente
+- Positional Encoding: agrega información de posición (los transformers no son recurrentes)
+
+El mecanismo de atención calcula:
+  Attention(Q, K, V) = softmax(QK^T / sqrt(d_k)) * V
+
+Donde Q (queries), K (keys) y V (values) son proyecciones lineales de la entrada.
+
+Los LLMs (GPT, Llama, Claude) son transformers entrenados en texto a gran escala.

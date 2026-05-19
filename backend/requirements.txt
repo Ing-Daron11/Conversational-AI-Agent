@@ -21,12 +21,13 @@ redis==5.0.4              # Cliente Redis para sesiones y rate limiting
 # --- FASE 0: HTTP client (llamadas a APIs externas) ---
 httpx==0.27.0
 
-# --- FASE 1: RAG — se instalarán en la siguiente fase ---
-# langchain==0.2.x
-# langchain-openai
-# langchain-community
-# chromadb==0.5.x
-# openai==1.x
+# --- FASE 1: RAG ---
+langchain==0.2.16           # Orquestador: chains, prompts, agentes
+langchain-ollama==0.1.3     # Integración LangChain ↔ Ollama (LLM local + embeddings)
+langchain-community==0.2.16 # Loaders de documentos, vectorstores, etc.
+chromadb==0.5.23            # BD vectorial local (desarrollo)
+pypdf==4.3.1                # Leer archivos PDF para ingestión
+# openai==1.35.14           # Descomentar solo si se usa OpenAI en el futuro
 
 # --- FASE 3: MCP tools ---
 # mcp                     # SDK oficial de Anthropic para MCP

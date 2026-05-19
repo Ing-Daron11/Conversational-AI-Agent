@@ -11,12 +11,19 @@ from functools import lru_cache
 
 
 class Settings(BaseSettings):
-    # ---- LLM ----
+    # ---- LLM (Ollama — local, sin costo) ----
+    # Ollama debe estar corriendo en el host.
+    # Desde Docker usa host.docker.internal; desde local usa localhost.
+    ollama_base_url: str = "http://localhost:11434"
+    ollama_model: str = "qwen3:4b"      # modelo descargado con: ollama pull qwen3:4b
+    ollama_embed_model: str = "nomic-embed-text"  # ollama pull nomic-embed-text
+    llm_temperature: float = 0.3        # 0 = determinístico, 1 = creativo
+    llm_max_tokens: int = 500
+
+    # ---- LLM (OpenAI — opcional, para FASE 4 fine-tuning) ----
     openai_api_key: str = ""
     openai_model: str = "gpt-4o-mini"
     openai_fine_tuned_model: str = ""   # se completa en FASE 4
-    llm_temperature: float = 0.3        # 0 = determinístico, 1 = creativo
-    llm_max_tokens: int = 500
 
     # ---- WhatsApp / Twilio ----
     twilio_account_sid: str = ""
