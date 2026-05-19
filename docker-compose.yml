@@ -1,10 +1,15 @@
 version: '3.8'
 
 # ============================================================
-# Docker Compose — FASE 0
-# Levanta tres servicios: backend (FastAPI), base de datos
-# (PostgreSQL) y caché (Redis). Los servicios de IA, RAG y
-# MCP se integrarán en fases posteriores.
+# Docker Compose — FASE 6 (actualizado)
+# Cuatro servicios: backend (FastAPI), frontend (Next.js),
+# base de datos (PostgreSQL) y caché (Redis).
+#
+# CONCEPTO — Redes Docker:
+#   Los servicios en el mismo docker-compose se comunican por
+#   nombre de servicio (ej: "backend" resuelve a la IP del contenedor).
+#   El frontend llama a http://backend:8000 dentro de Docker.
+#   El navegador del usuario llama a http://localhost:8000 (port mapping).
 # ============================================================
 
 services:
@@ -25,6 +30,27 @@ services:
     volumes:
       - ./backend:/app        # hot-reload: cambios locales se reflejan al instante
     command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # ---------- Panel de administración: Next.js (FASE 6) ----------
+  # Interfaz web para gestionar documentos, ver métricas y eventos.
+  #
+  # CONCEPTO — NEXT_PUBLIC_API_URL:
+  #   En el NAVEGADOR, las llamadas deben ir a localhost:8000 (accesible desde el host).
+  #   Dentro de Next.js SSR (servidor), podría usar http://backend:8000.
+  #   Como usamos Client Components para la mayoría de fetches, usamos localhost:8000.
+  frontend:
+    build: ./frontend
+    container_name: asistente-frontend
+    ports:
+      - "3000:3000"           # Next.js accesible en localhost:3000
+    environment:
+      - NEXT_PUBLIC_API_URL=http://localhost:8000   # URL pública (navegador → backend)
+      - WATCHPACK_POLLING=true                       # hot reload en Docker/Windows
+    depends_on:
+      - backend
+    volumes:
+      - ./frontend:/app                             # montar código para hot reload
+      - /app/node_modules                           # excluir node_modules del mount
 
   # ---------- Base de datos relacional: PostgreSQL 15 ----------
   # Almacena: citas, usuarios, historial de conversaciones (FASE 2+)

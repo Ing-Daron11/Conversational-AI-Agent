@@ -1,0 +1,11 @@
+/**
+ * app/globals.css — Estilos globales con Tailwind CSS
+ *
+ * @tailwind base/components/utilities son directivas de Tailwind.
+ * PostCSS las procesa y genera el CSS final con solo las clases usadas
+ * (tree-shaking de CSS → bundle más pequeño).
+ */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

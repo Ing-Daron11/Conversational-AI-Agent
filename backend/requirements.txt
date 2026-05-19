@@ -44,6 +44,14 @@ accelerate==0.31.0              # Abstracción multi-GPU / CPU / MPS
 datasets==2.20.0                # Carga y procesamiento de datasets HuggingFace
 # bitsandbytes==0.43.1          # Cuantización 4/8-bit (descomentar si tienes GPU NVIDIA)
 
+# --- FASE 5: RAG avanzado (re-ranker + Pinecone) ---
+# sentence-transformers: cross-encoder local para re-ranking de candidatos
+# ~66 MB de descarga; usa CPU (no requiere GPU)
+sentence-transformers>=2.7.0
+# Pinecone: BD vectorial cloud (solo necesario si USE_PINECONE=true)
+pinecone>=4.0.0
+langchain-pinecone>=0.1.3
+
 # --- Testing ---
 pytest==8.2.0
 pytest-asyncio==0.23.6

@@ -38,8 +38,14 @@ class Settings(BaseSettings):
 
     # ---- BD Vectorial (FASE 1+) ----
     chroma_persist_path: str = "./chroma_db"
+    # Pinecone (cloud, producción). Activar con USE_PINECONE=true en .env
+    use_pinecone: bool = False
     pinecone_api_key: str = ""
     pinecone_index_name: str = "academic-notes"
+    pinecone_environment: str = ""  # ej: "us-east-1-aws"
+    # Re-ranker cross-encoder (FASE 5). Desactivar para ahorrar memoria.
+    reranker_enabled: bool = True
+    reranker_model: str = "cross-encoder/ms-marco-MiniLM-L-6-v2"
 
     # ---- Google APIs (FASE 3+) ----
     google_client_id: str = ""
