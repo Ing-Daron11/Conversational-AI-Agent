@@ -13,7 +13,13 @@
  *   Como este es un panel admin puramente client-side, usamos NEXT_PUBLIC_.
  */
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000";
+// Server Components corren dentro del contenedor Docker → usan el hostname interno "backend".
+// Client Components corren en el navegador del usuario → usan localhost:8000.
+// typeof window === 'undefined' es true solo en Node.js (SSR), false en el browser.
+const API_URL =
+  typeof window === "undefined"
+    ? (process.env.API_INTERNAL_URL ?? "http://backend:8000")
+    : (process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000");
 
 // ─── Tipos que espejean los modelos Pydantic del backend ─────────────────
 

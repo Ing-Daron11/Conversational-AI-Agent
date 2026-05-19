@@ -45,6 +45,7 @@ services:
       - "3000:3000"           # Next.js accesible en localhost:3000
     environment:
       - NEXT_PUBLIC_API_URL=http://localhost:8000   # URL pública (navegador → backend)
+      - API_INTERNAL_URL=http://backend:8000        # URL interna Docker (SSR → backend)
       - WATCHPACK_POLLING=true                       # hot reload en Docker/Windows
     depends_on:
       - backend
@@ -62,7 +63,7 @@ services:
       POSTGRES_PASSWORD: asistente123
       POSTGRES_DB: asistente_db
     ports:
-      - "5432:5432"
+      - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data   # persiste los datos entre reinicios
     healthcheck:

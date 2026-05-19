@@ -6,7 +6,9 @@ const nextConfig = {
     return [
       {
         source: "/api/:path*",
-        destination: `${process.env.NEXT_PUBLIC_API_URL || "http://localhost:8000"}/:path*`,
+        // Las rewrites se evalúan en el servidor Next.js (dentro de Docker).
+      // Usar API_INTERNAL_URL (hostname Docker) en lugar de localhost.
+      destination: `${process.env.API_INTERNAL_URL || "http://backend:8000"}/:path*`,
       },
     ];
   },
