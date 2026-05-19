@@ -12,6 +12,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.webhook import router as webhook_router
+from app.api.auth import router as auth_router
 from app.config import get_settings
 from app.models.database import init_db
 
@@ -42,7 +43,7 @@ async def lifespan(app: FastAPI):
 app = FastAPI(
     title="Asistente Académico — API",
     description="Backend del asistente académico personal por WhatsApp.",
-    version="0.2.0",
+    version="0.3.0",
     debug=settings.debug,
     lifespan=lifespan,
 )
@@ -58,10 +59,11 @@ app.add_middleware(
 
 # ---- Registro de routers ----
 app.include_router(webhook_router, prefix="/webhook", tags=["WhatsApp"])
+app.include_router(auth_router, prefix="/auth", tags=["Autenticación"])
 
 
 # ---- Health check ----
 @app.get("/health", tags=["Sistema"])
 async def health_check():
-    return {"status": "ok", "version": "0.2.0"}
+    return {"status": "ok", "version": "0.3.0"}
 

@@ -29,10 +29,20 @@ chromadb==0.5.23            # BD vectorial local (desarrollo)
 pypdf==4.3.1                # Leer archivos PDF para ingestión
 # openai==1.35.14           # Descomentar solo si se usa OpenAI en el futuro
 
-# --- FASE 3: MCP tools ---
-# mcp                     # SDK oficial de Anthropic para MCP
-# google-api-python-client
-# google-auth-oauthlib
+# --- FASE 3: MCP tools — Google Calendar + Drive ---
+langchain-core==0.2.38          # Tool decorator y BaseTool para agentes
+google-api-python-client==2.131.0  # Cliente oficial Google APIs (Calendar, Drive)
+google-auth-oauthlib==1.2.0     # Flujo OAuth2 para Google
+google-auth-httplib2==0.2.0     # Transporte HTTP para google-auth
+
+# --- FASE 4: Fine-tuning con LoRA (Hugging Face PEFT) ---
+# Requieren GPU (CUDA) para entrenar; en CPU solo para pruebas pequeñas.
+transformers==4.41.2            # Modelos HuggingFace (Qwen, Llama, etc.)
+peft==0.11.1                    # LoRA, QLoRA y otros métodos de fine-tuning eficiente
+trl==0.9.4                      # SFTTrainer: entrenamiento supervisado simplificado
+accelerate==0.31.0              # Abstracción multi-GPU / CPU / MPS
+datasets==2.20.0                # Carga y procesamiento de datasets HuggingFace
+# bitsandbytes==0.43.1          # Cuantización 4/8-bit (descomentar si tienes GPU NVIDIA)
 
 # --- Testing ---
 pytest==8.2.0
