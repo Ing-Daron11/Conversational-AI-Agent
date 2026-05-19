@@ -1,0 +1,39 @@
+# ============================================================
+# requirements.txt — Dependencias del backend
+# Organizadas por fase para que sea claro cuándo se usa cada una
+# ============================================================
+
+# --- FASE 0: Core API y base de datos ---
+fastapi==0.111.0          # Framework web async de alto rendimiento
+uvicorn[standard]==0.29.0 # Servidor ASGI para FastAPI
+python-dotenv==1.0.1      # Carga variables desde .env
+pydantic-settings==2.2.1  # Validación de configuración con Pydantic v2
+python-multipart==0.0.9   # Necesario para recibir form-data de Twilio
+
+# --- FASE 0: Base de datos relacional ---
+sqlalchemy==2.0.30        # ORM para interactuar con PostgreSQL
+alembic==1.13.1           # Migraciones de esquema de BD
+psycopg2-binary==2.9.9    # Driver PostgreSQL para Python
+
+# --- FASE 0: Caché ---
+redis==5.0.4              # Cliente Redis para sesiones y rate limiting
+
+# --- FASE 0: HTTP client (llamadas a APIs externas) ---
+httpx==0.27.0
+
+# --- FASE 1: RAG — se instalarán en la siguiente fase ---
+# langchain==0.2.x
+# langchain-openai
+# langchain-community
+# chromadb==0.5.x
+# openai==1.x
+
+# --- FASE 3: MCP tools ---
+# mcp                     # SDK oficial de Anthropic para MCP
+# google-api-python-client
+# google-auth-oauthlib
+
+# --- Testing ---
+pytest==8.2.0
+pytest-asyncio==0.23.6
+httpx==0.27.0             # también usado en tests como cliente HTTP

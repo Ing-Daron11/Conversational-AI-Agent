@@ -1,0 +1,62 @@
+version: '3.8'
+
+# ============================================================
+# Docker Compose — FASE 0
+# Levanta tres servicios: backend (FastAPI), base de datos
+# (PostgreSQL) y caché (Redis). Los servicios de IA, RAG y
+# MCP se integrarán en fases posteriores.
+# ============================================================
+
+services:
+
+  # ---------- Servicio principal: API FastAPI ----------
+  backend:
+    build: ./backend
+    container_name: asistente-backend
+    ports:
+      - "8000:8000"           # FastAPI accesible en localhost:8000
+    env_file:
+      - .env                  # carga todas las variables de entorno
+    depends_on:
+      db:
+        condition: service_healthy   # espera a que Postgres esté listo
+      redis:
+        condition: service_healthy   # espera a que Redis esté listo
+    volumes:
+      - ./backend:/app        # hot-reload: cambios locales se reflejan al instante
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  # ---------- Base de datos relacional: PostgreSQL 15 ----------
+  # Almacena: citas, usuarios, historial de conversaciones (FASE 2+)
+  db:
+    image: postgres:15
+    container_name: asistente-db
+    environment:
+      POSTGRES_USER: asistente
+      POSTGRES_PASSWORD: asistente123
+      POSTGRES_DB: asistente_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data   # persiste los datos entre reinicios
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U asistente -d asistente_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # ---------- Caché en memoria: Redis 7 ----------
+  # Almacena: sesiones de conversación activas, rate limiting (FASE 2+)
+  redis:
+    image: redis:7-alpine
+    container_name: asistente-redis
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
+
+volumes:
+  postgres_data:   # volumen nombrado: sobrevive a "docker compose down"
