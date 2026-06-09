@@ -25,6 +25,21 @@ async def lifespan(app: FastAPI):
     # ---- STARTUP ----
     setup_logging(settings.log_level)
     init_db()
+
+    # Pre-cargar el cross-encoder al arrancar para evitar timeout de Twilio (15s).
+    # La primera vez descarga ~66MB de HuggingFace. Usando lru_cache, las llamadas
+    # siguientes son instantáneas. Sin esto, el primer mensaje tarda ~50s y Twilio
+    # descarta la respuesta antes de recibirla.
+    if settings.reranker_enabled:
+        log = logging.getLogger("app")
+        log.info("Precargando cross-encoder reranker...")
+        try:
+            from app.rag.reranker import _get_cross_encoder
+            _get_cross_encoder()
+            log.info("Cross-encoder listo.")
+        except Exception as e:
+            log.warning(f"Reranker no disponible (se usará solo bi-encoder): {e}")
+
     logging.getLogger("app").info("startup_complete", extra={"version": "0.5.0"})
     yield
     # ---- SHUTDOWN ----
