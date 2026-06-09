@@ -199,3 +199,9 @@ docker exec asistente-backend pytest tests/ -v
 | **Rate limiting** (Fixed Window) | `middleware/rate_limit.py` | 7 |
 | **Circuit Breaker** | `core/fallbacks.py` | 7 |
 | **Logging estructurado JSON** | `core/logger.py` | 7 |
+
+![alt text](image.png)
+
+![alt text](image-1.png)
+
+![alt text](image-2.png)
